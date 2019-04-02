@@ -12,6 +12,10 @@ public class AppTest {
     public void shouldAnswerWithTrue2() {
         System.out.println("增加最小值：" + test1(300, 500, 50, 10000));
         System.out.println("增加最大值：" + test2(300, 500, 50, 10000));
+
+        test3(1L);
+        test3(1);
+
     }
 
     private static long test1(int min, int max, int var, int times) {
@@ -57,5 +61,10 @@ public class AppTest {
         System.out.println(res);
         return total;
     }
+
+    public static <T> void test3(T t) {
+        System.out.println(t.getClass().getName());
+    }
+
 
 }

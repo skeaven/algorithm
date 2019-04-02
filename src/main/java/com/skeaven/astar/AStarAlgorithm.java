@@ -30,8 +30,6 @@ public class AStarAlgorithm {
         route.getRoute().add(route.getLastPoint());
         routes.add(route);
         Route bestRoute = route;
-        boolean flag;
-
         while (!(bestRoute.getLastPoint().getX() == targetX && bestRoute.getLastPoint().getY() == targetY)) {
             //获取当前最优解，并初始化最优解为起点，开始进行下一步移动
             Point start = bestRoute.getLastPoint();
@@ -44,7 +42,7 @@ public class AStarAlgorithm {
             nextPoints[2] = new Point(startX, startY - 1);
             nextPoints[3] = new Point(startX, startY + 1);
 
-            flag = false;//标识当前迭代是否有解，如果没有解，则结束迭代
+            boolean flag = false;//标识当前迭代是否有解，如果没有解，则结束迭代
             for (Point nextPoint : nextPoints) {
                 if (checkPoint(panel, nextPoint)) {
                     //处于解空间内，且可以移动到此的位置
@@ -59,27 +57,29 @@ public class AStarAlgorithm {
                     nextRoute.setH(hValue);
 
                     routes.add(nextRoute);
-                    panel[nextPoint.getX()][nextPoint.getY()] = 1;
+                    panel[nextPoint.getX()][nextPoint.getY()] = 2;
                     flag = true;
                 }
             }
 
-            if (flag){
+            if (!flag) {
                 //有解
                 routes.remove(bestRoute);
-            }else{
-                break;
+                if (routes.isEmpty()) {
+                    break;
+                }
             }
 
             //找到当前优解
             int minScore = Integer.MAX_VALUE;
             for (Route currRoute : routes) {
-                int score = currRoute.getG() + currRoute.getH();
+                int score = currRoute.getH();
                 if (minScore > score) {
                     minScore = score;
                     bestRoute = currRoute;
                 }
             }
+//            showPanel(panel);
         }
 
         return bestRoute;
@@ -95,10 +95,20 @@ public class AStarAlgorithm {
 
         if (y >= 0 && y < panel.length) {
             if (x >= 0 && x < panel[y].length) {
-                return panel[x][y] != 1;
+                return panel[x][y] == 0;
             }
         }
         return false;
+    }
+
+    public static void showPanel(int[][] panel) {
+        System.out.println("-------------------------------------------");
+        for (int i = 0; i < panel.length; i++) {
+            for (int j = 0; j < panel[i].length; j++) {
+                System.out.print(panel[i][j] + "\t");
+            }
+            System.out.println();
+        }
     }
 
 }
