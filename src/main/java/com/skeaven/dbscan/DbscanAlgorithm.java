@@ -92,12 +92,6 @@ public class DbscanAlgorithm {
 
     //计算地理距离
     private static double geographicDistance(DbscanSpatialEntry entry1, DbscanSpatialEntry entry2) {
-        double lon1 = entry1.getX();
-        double lat1 = entry1.getY();
-
-        double lon2 = entry2.getX();
-        double lat2 = entry2.getY();
-
         return sqrt(pow(abs(entry1.getX() - entry2.getX()), 2) + pow(abs(entry1.getY() - entry2.getY()), 2));
     }
 

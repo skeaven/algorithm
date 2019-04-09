@@ -1,13 +1,19 @@
 package com.skeaven.dbscan;
 
 import com.skeaven.SpatialEntry;
-import lombok.Data;
+import lombok.*;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@Data
+/**
+ * dbscan算法使用的实体类
+ */
+@NoArgsConstructor
 public class DbscanSpatialEntry extends SpatialEntry {
+
+    @Getter
+    @Setter
     private List<DbscanSpatialEntry> subEntries = new LinkedList<>();
 
     public DbscanSpatialEntry(String id,double x,double y){

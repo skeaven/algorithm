@@ -1,6 +1,6 @@
 package com.skeaven.meanShift;
 
-import com.skeaven.dbscan.DbscanSpatialEntry;
+import com.skeaven.SpatialEntry;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
@@ -18,10 +18,10 @@ public class MeanShiftAlgorithm {
      * @param data   样本空间
      * @return 返回聚类结果，每个聚类的解和相关的样本集
      */
-    public static Map<Double, List<DbscanSpatialEntry>> process1D(double radius, DbscanSpatialEntry... data) {
+    public static Map<Double, List<SpatialEntry>> process1D(double radius, SpatialEntry... data) {
 
         //聚类结果集
-        Map<Double, List<DbscanSpatialEntry>> result = new HashMap<>();
+        Map<Double, List<SpatialEntry>> result = new HashMap<>();
 
         //如果样本集为空，则直接返回
         if (data.length > 0) {
@@ -29,7 +29,7 @@ public class MeanShiftAlgorithm {
             double maxBoundary = data[0].getX();
 
             //获取当前计算样本集的边界
-            for (DbscanSpatialEntry entry : data) {
+            for (SpatialEntry entry : data) {
                 minBoundary = minBoundary < entry.getX() ? minBoundary : entry.getX();
                 maxBoundary = maxBoundary > entry.getX() ? maxBoundary : entry.getX();
             }
@@ -63,7 +63,7 @@ public class MeanShiftAlgorithm {
 
                     //记录当前迭代的解空间的样本数量
                     int sampleCount = 0;
-                    for (DbscanSpatialEntry entry : data) {
+                    for (SpatialEntry entry : data) {
                         if (Math.abs(entry.getX() - operator) <= radius) {
                             totalValue += entry.getX();
                             sampleCount++;
@@ -90,8 +90,8 @@ public class MeanShiftAlgorithm {
 
             //根据聚类结果保存分类结果集
             for (int i = 0; i < operatorNum; i++) {
-                List<DbscanSpatialEntry> list = new ArrayList<>();
-                for (DbscanSpatialEntry entry : data) {
+                List<SpatialEntry> list = new ArrayList<>();
+                for (SpatialEntry entry : data) {
                     if (Math.abs(entry.getX() - operators[i]) <= radius) {
                         list.add(entry);
                     }
@@ -103,11 +103,6 @@ public class MeanShiftAlgorithm {
 
         }
         return result;
-    }
-
-
-    public static double[][] process2D() {
-        return null;
     }
 
 }

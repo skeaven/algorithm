@@ -1,6 +1,6 @@
 package com.skeaven.meanShift;
 
-import com.skeaven.dbscan.DbscanSpatialEntry;
+import com.skeaven.SpatialEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,13 +11,13 @@ import java.util.*;
 public class MeanShiftAlgorithmTest {
     private static final int TYPE_NUM = 5;
 
-    List<DbscanSpatialEntry> data = new ArrayList<>();
+    List<SpatialEntry> data = new ArrayList<>();
 
     @Before
     public void init() {
         for (int i = 0; i < 60; i++) {
             double value = Math.random() * 1000;
-            DbscanSpatialEntry entry = new DbscanSpatialEntry();
+            SpatialEntry entry = new SpatialEntry();
             entry.setId(UUID.randomUUID().toString());
             entry.setX(value);
             data.add(entry);
@@ -29,15 +29,15 @@ public class MeanShiftAlgorithmTest {
 
     @Test
     public void process1D() {
-        DbscanSpatialEntry[] array = new DbscanSpatialEntry[data.size()];
-        Map<Double, List<DbscanSpatialEntry>> result = MeanShiftAlgorithm.process1D(20, data.toArray(array));
+        SpatialEntry[] array = new SpatialEntry[data.size()];
+        Map<Double, List<SpatialEntry>> result = MeanShiftAlgorithm.process1D(20, data.toArray(array));
         System.out.println("-----------------------------");
-        for (Map.Entry<Double, List<DbscanSpatialEntry>> entry : result.entrySet()) {
+        for (Map.Entry<Double, List<SpatialEntry>> entry : result.entrySet()) {
             if (entry.getValue().size() > TYPE_NUM)
                 System.out.println(entry.getKey() + "\t" + 0);
         }
         System.out.println("-----------------------------");
-        for (Map.Entry<Double, List<DbscanSpatialEntry>> entry : result.entrySet()) {
+        for (Map.Entry<Double, List<SpatialEntry>> entry : result.entrySet()) {
             if (entry.getValue().size() > TYPE_NUM)
                 System.out.println(entry.getKey() + "\t" + entry.getValue().size());
         }
@@ -48,11 +48,11 @@ public class MeanShiftAlgorithmTest {
     }
 
 
-    public static String formatList(List<DbscanSpatialEntry> entries) {
+    public static String formatList(List<SpatialEntry> entries) {
 
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("{");
-        for (DbscanSpatialEntry entry : entries) {
+        for (SpatialEntry entry : entries) {
             stringBuffer.append(entry.getId()).append(",");
         }
         stringBuffer.append("}");
